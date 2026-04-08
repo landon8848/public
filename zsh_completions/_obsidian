@@ -1,0 +1,154 @@
+#compdef obsidian
+
+_obsidian() {
+  local state line
+  typeset -A opt_args
+
+  _arguments \
+    '1: :->command' \
+    '*: :->args'
+
+  case $state in
+    command)
+      local commands
+      commands=(
+        # General
+        'help:Display available commands'
+        'version:Show Obsidian version'
+        'reload:Reload app window'
+        'restart:Restart app'
+        # File Management
+        'file:Show file info'
+        'files:List vault files'
+        'folder:Show folder info'
+        'folders:List vault folders'
+        'open:Open a file'
+        'create:Create or overwrite file'
+        'read:Read file contents'
+        'append:Add content to file'
+        'prepend:Insert content after frontmatter'
+        'move:Move or rename file'
+        'rename:Rename file'
+        'delete:Delete file'
+        # Daily / Random / Unique
+        'daily:Open daily note'
+        'daily\:path:Get daily note path'
+        'daily\:read:Read daily note'
+        'daily\:append:Append to daily note'
+        'daily\:prepend:Prepend to daily note'
+        'random:Open random note'
+        'random\:read:Read random note'
+        'unique:Create unique note'
+        # Search & Navigation
+        'search:Search vault text'
+        'search\:context:Search with line context'
+        'search\:open:Open search view'
+        'backlinks:List file backlinks'
+        'links:List outgoing links'
+        'unresolved:List unresolved links'
+        'orphans:List files without incoming links'
+        'deadends:List files without outgoing links'
+        # Organization
+        'tags:List vault tags'
+        'tag:Get tag info'
+        'aliases:List file aliases'
+        'properties:List vault properties'
+        'property\:set:Set file property'
+        'property\:remove:Remove property'
+        'property\:read:Read property value'
+        'outline:Show file headings'
+        # Tasks
+        'tasks:List vault tasks'
+        'task:Show or update task'
+        # Plugins
+        'plugins:List installed plugins'
+        'plugins\:enabled:List enabled plugins'
+        'plugins\:restrict:Toggle restricted mode'
+        'plugin:Get plugin info'
+        'plugin\:enable:Enable plugin'
+        'plugin\:disable:Disable plugin'
+        'plugin\:install:Install community plugin'
+        'plugin\:uninstall:Uninstall plugin'
+        'plugin\:reload:Reload plugin'
+        # Themes
+        'themes:List installed themes'
+        'theme:Show theme info'
+        'theme\:set:Set active theme'
+        'theme\:install:Install community theme'
+        'theme\:uninstall:Uninstall theme'
+        # Snippets
+        'snippets:List CSS snippets'
+        'snippets\:enabled:List enabled snippets'
+        'snippet\:enable:Enable snippet'
+        'snippet\:disable:Disable snippet'
+        # Sync & History
+        'sync:Pause or resume sync'
+        'sync\:status:Show sync status'
+        'sync\:history:List sync version history'
+        'sync\:read:Read sync version'
+        'sync\:restore:Restore sync version'
+        'sync\:open:Open sync history'
+        'sync\:deleted:List deleted files'
+        'diff:List or compare file versions'
+        'history:List local history versions'
+        'history\:list:List files with history'
+        'history\:read:Read history version'
+        'history\:restore:Restore history version'
+        'history\:open:Open file recovery'
+        # Publishing
+        'publish\:site:Show publish site info'
+        'publish\:list:List published files'
+        'publish\:status:List publish changes'
+        'publish\:add:Publish file(s)'
+        'publish\:remove:Unpublish file'
+        'publish\:open:Open published file'
+        # Workspace
+        'workspace:Show workspace tree'
+        'workspaces:List saved workspaces'
+        'workspace\:save:Save current layout'
+        'workspace\:load:Load saved workspace'
+        'workspace\:delete:Delete workspace'
+        'tabs:List open tabs'
+        'tab\:open:Open new tab'
+        'recents:List recent files'
+        # Commands & Hotkeys
+        'commands:List command IDs'
+        'command:Execute command'
+        'hotkeys:List all hotkeys'
+        'hotkey:Get command hotkey'
+        # Bases
+        'bases:List base files'
+        'base\:views:List base views'
+        'base\:create:Create base item'
+        'base\:query:Query base'
+        # Bookmarks
+        'bookmarks:List bookmarks'
+        'bookmark:Add bookmark'
+        # Templates
+        'templates:List templates'
+        'template\:read:Read template'
+        'template\:insert:Insert template'
+        # Misc
+        'wordcount:Count words and characters'
+        'vault:Show vault info'
+        'vaults:List known vaults'
+        'vault\:open:Switch vault'
+        'web:Open URL in web viewer'
+        # Developer
+        'devtools:Toggle dev tools'
+        'dev\:debug:Attach or detach debugger'
+        'dev\:cdp:Run CDP command'
+        'dev\:errors:Show JavaScript errors'
+        'dev\:screenshot:Take screenshot'
+        'dev\:console:Show console messages'
+        'dev\:css:Inspect CSS'
+        'dev\:dom:Query DOM elements'
+        'dev\:mobile:Toggle mobile emulation'
+        'eval:Execute JavaScript'
+      )
+      _describe 'obsidian command' commands
+      ;;
+  esac
+}
+
+_obsidian "$@"

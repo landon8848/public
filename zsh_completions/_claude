@@ -1,0 +1,194 @@
+#compdef claude
+# ZSH completion script for Claude Code CLI
+
+_claude() {
+  local context state state_descr line
+  typeset -A opt_args
+
+  _arguments -C \
+    '(-h --help)'{-h,--help}'[Display help]' \
+    '(-v --version)'{-v,--version}'[Output the version number]' \
+    '(-p --print)'{-p,--print}'[Print response and exit (non-interactive)]' \
+    '(-c --continue)'{-c,--continue}'[Continue the most recent conversation]' \
+    '(-r --resume)'{-r,--resume}'[Resume a conversation by session ID or picker]:session ID' \
+    '(-n --name)'{-n,--name}'[Set a display name for this session]:name' \
+    '(-d --debug)'{-d,--debug}'[Enable debug mode with optional category filter]:filter' \
+    '(-w --worktree)'{-w,--worktree}'[Create a new git worktree for this session]:name' \
+    '--add-dir[Additional directories to allow tool access to]:directory:_files -/' \
+    '--agent[Agent for the current session]:agent' \
+    '--agents[JSON object defining custom agents]:json' \
+    '--allow-dangerously-skip-permissions[Enable bypassing permission checks as an option]' \
+    '--allowedTools[Comma/space-separated list of tools to allow]:tools' \
+    '--allowed-tools[Comma/space-separated list of tools to allow]:tools' \
+    '--append-system-prompt[Append to the default system prompt]:prompt' \
+    '--bare[Minimal mode: skip hooks, LSP, plugin sync, etc.]' \
+    '--betas[Beta headers to include in API requests]:betas' \
+    '--brief[Enable SendUserMessage tool for agent-to-user communication]' \
+    '--chrome[Enable Claude in Chrome integration]' \
+    '--no-chrome[Disable Claude in Chrome integration]' \
+    '--dangerously-skip-permissions[Bypass all permission checks]' \
+    '--debug-file[Write debug logs to a file]:path:_files' \
+    '--disable-slash-commands[Disable all skills]' \
+    '--disallowedTools[Comma/space-separated list of tools to deny]:tools' \
+    '--disallowed-tools[Comma/space-separated list of tools to deny]:tools' \
+    '--effort[Effort level for the session]:level:(low medium high max)' \
+    '--fallback-model[Fallback model when default is overloaded]:model' \
+    '--file[File resources to download at startup]:specs' \
+    '--fork-session[Create a new session ID when resuming]' \
+    '--from-pr[Resume a session linked to a PR]:PR number or URL' \
+    '--ide[Automatically connect to IDE on startup]' \
+    '--include-hook-events[Include hook lifecycle events in output stream]' \
+    '--include-partial-messages[Include partial message chunks as they arrive]' \
+    '--input-format[Input format (only with --print)]:format:(text stream-json)' \
+    '--json-schema[JSON Schema for structured output validation]:schema' \
+    '--max-budget-usd[Maximum dollar amount to spend on API calls]:amount' \
+    '--mcp-config[Load MCP servers from JSON files or strings]:config:_files' \
+    '--mcp-debug[Enable MCP debug mode (DEPRECATED)]' \
+    '--model[Model for the current session]:model:(sonnet opus haiku claude-sonnet-4-6 claude-opus-4-6 claude-haiku-4-5-20251001)' \
+    '--no-session-persistence[Disable session persistence]' \
+    '--output-format[Output format (only with --print)]:format:(text json stream-json)' \
+    '--permission-mode[Permission mode for the session]:mode:(acceptEdits auto bypassPermissions default dontAsk plan)' \
+    '--plugin-dir[Load plugins from a directory]:path:_files -/' \
+    '--replay-user-messages[Re-emit user messages from stdin back on stdout]' \
+    '--session-id[Use a specific session ID]:uuid' \
+    '--setting-sources[Comma-separated list of setting sources]:sources' \
+    '--settings[Path to settings JSON file or JSON string]:file:_files' \
+    '--strict-mcp-config[Only use MCP servers from --mcp-config]' \
+    '--system-prompt[System prompt to use for the session]:prompt' \
+    '--tmux[Create a tmux session for the worktree]' \
+    '--tools[Specify available tools from the built-in set]:tools' \
+    '--verbose[Override verbose mode setting from config]' \
+    '1: :->first_arg' \
+    '*:: :->subcommand_args'
+
+  local -a subcommands
+  subcommands=(
+    'agents:List configured agents'
+    'auth:Manage authentication'
+    'auto-mode:Inspect auto mode classifier configuration'
+    'doctor:Check the health of your Claude Code auto-updater'
+    'install:Install Claude Code native build'
+    'mcp:Configure and manage MCP servers'
+    'plugin:Manage Claude Code plugins'
+    'plugins:Manage Claude Code plugins'
+    'setup-token:Set up a long-lived authentication token'
+    'update:Check for updates and install if available'
+    'upgrade:Check for updates and install if available'
+  )
+
+  case $state in
+    first_arg)
+      _describe 'command' subcommands
+      ;;
+    subcommand_args)
+      case $words[1] in
+        auth)           _claude_auth ;;
+        mcp)            _claude_mcp ;;
+        plugin|plugins) _claude_plugin ;;
+        install)        _claude_install ;;
+        agents)         _claude_agents ;;
+      esac
+      ;;
+  esac
+}
+
+_claude_auth() {
+  local -a auth_cmds
+  auth_cmds=(
+    'login:Sign in to your Anthropic account'
+    'logout:Log out from your Anthropic account'
+    'status:Show authentication status'
+  )
+  _describe 'auth command' auth_cmds
+}
+
+_claude_mcp() {
+  local -a mcp_cmds
+  mcp_cmds=(
+    'add:Add an MCP server to Claude Code'
+    'add-from-claude-desktop:Import MCP servers from Claude Desktop'
+    'add-json:Add an MCP server with a JSON string'
+    'get:Get details about an MCP server'
+    'list:List configured MCP servers'
+    'remove:Remove an MCP server'
+    'reset-project-choices:Reset all approved/rejected project-scoped servers'
+    'serve:Start the Claude Code MCP server'
+  )
+  _describe 'mcp command' mcp_cmds
+
+  case $words[2] in
+    add)
+      _arguments \
+        '(-h --help)'{-h,--help}'[Display help]' \
+        '--callback-port[Fixed port for OAuth callback]:port' \
+        '--client-id[OAuth client ID for HTTP/SSE servers]:clientId' \
+        '--client-secret[Prompt for OAuth client secret]' \
+        '(-e --env)'{-e,--env}'[Set environment variables]:env' \
+        '(-H --header)'{-H,--header}'[Set WebSocket headers]:header' \
+        '(-s --scope)'{-s,--scope}'[Configuration scope]:scope:(local user project)' \
+        '(-t --transport)'{-t,--transport}'[Transport type]:transport:(stdio sse http)' \
+        '1:name' \
+        '2:command or URL'
+      ;;
+    remove)
+      _arguments \
+        '(-h --help)'{-h,--help}'[Display help]' \
+        '(-s --scope)'{-s,--scope}'[Configuration scope]:scope:(local user project)' \
+        '1:server name'
+      ;;
+    get)
+      _arguments \
+        '(-h --help)'{-h,--help}'[Display help]' \
+        '1:server name'
+      ;;
+    serve)
+      _arguments \
+        '(-h --help)'{-h,--help}'[Display help]' \
+        '(-d --debug)'{-d,--debug}'[Enable debug mode]' \
+        '--verbose[Override verbose mode setting]'
+      ;;
+  esac
+}
+
+_claude_plugin() {
+  local -a plugin_cmds
+  plugin_cmds=(
+    'disable:Disable an enabled plugin'
+    'enable:Enable a disabled plugin'
+    'install:Install a plugin from available marketplaces'
+    'list:List installed plugins'
+    'marketplace:Manage Claude Code marketplaces'
+    'uninstall:Uninstall an installed plugin'
+    'update:Update a plugin to the latest version'
+    'validate:Validate a plugin or marketplace manifest'
+  )
+  _describe 'plugin command' plugin_cmds
+
+  case $words[2] in
+    marketplace)
+      local -a mkt_cmds
+      mkt_cmds=(
+        'add:Add a marketplace from a URL, path, or GitHub repo'
+        'list:List all configured marketplaces'
+        'remove:Remove a configured marketplace'
+        'update:Update marketplace(s) from their source'
+      )
+      _describe 'marketplace command' mkt_cmds
+      ;;
+  esac
+}
+
+_claude_install() {
+  _arguments \
+    '(-h --help)'{-h,--help}'[Display help]' \
+    '--force[Force installation even if already installed]' \
+    '1:target:(stable latest)'
+}
+
+_claude_agents() {
+  _arguments \
+    '(-h --help)'{-h,--help}'[Display help]' \
+    '--setting-sources[Comma-separated list of setting sources to load]:sources'
+}
+
+_claude "$@"
