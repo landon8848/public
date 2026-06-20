@@ -1,0 +1,9 @@
+# Compiled binaries (the universal binary is built into the .alfredworkflow)
+/whenin
+/workflow/whenin
+
+# GeoNames download cache
+/build/cache/
+
+# macOS
+.DS_Store

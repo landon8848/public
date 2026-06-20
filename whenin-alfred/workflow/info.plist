@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.landonpowell.whenin</string>
+	<key>category</key>
+	<string>Tools</string>
+	<key>connections</key>
+	<dict>
+		<key>A1B2C3D4-0001-0000-0000-000000000001</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A1B2C3D4-0002-0000-0000-000000000002</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>A1B2C3D4-0002-0000-0000-000000000002</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A1B2C3D4-0003-0000-0000-000000000003</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Landon Powell</string>
+	<key>description</key>
+	<string>What time is it in …? Fuzzy time lookup for cities, countries, IANA zones and tz codes.</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>When In…</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>when</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string>Looking up the time…</string>
+				<key>script</key>
+				<string>./whenin "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>in &lt;city&gt; · tz &lt;zone&gt; · is &lt;country&gt; (holidays, soon)</string>
+				<key>title</key>
+				<string>When In…</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>A1B2C3D4-0001-0000-0000-000000000001</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<true/>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>A1B2C3D4-0002-0000-0000-000000000002</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Copied to clipboard</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>A1B2C3D4-0003-0000-0000-000000000003</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>When In… — keyword `when`, then a subcommand:
+
+  when in &lt;place&gt;   — current time in a city or country (fuzzy)
+  when tz &lt;zone&gt;    — time for a tz code (PST) or IANA name (Europe/Berlin)
+  when is &lt;country&gt; — public holidays (coming soon)
+
+`when &lt;place&gt;` with no subcommand also does a city lookup. Press Enter to copy a chat-ready line like "2:32 PM Fri in Rome (CEST, UTC+2)".
+
+Set the clock format (12h/24h) in this workflow's configuration.</string>
+	<key>uidata</key>
+	<dict>
+		<key>A1B2C3D4-0001-0000-0000-000000000001</key>
+		<dict>
+			<key>xpos</key>
+			<real>120</real>
+			<key>ypos</key>
+			<real>120</real>
+		</dict>
+		<key>A1B2C3D4-0002-0000-0000-000000000002</key>
+		<dict>
+			<key>xpos</key>
+			<real>400</real>
+			<key>ypos</key>
+			<real>120</real>
+		</dict>
+		<key>A1B2C3D4-0003-0000-0000-000000000003</key>
+		<dict>
+			<key>xpos</key>
+			<real>660</real>
+			<key>ypos</key>
+			<real>120</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>12h</string>
+				<key>pairs</key>
+				<array>
+					<array>
+						<string>12-hour (2:32 PM)</string>
+						<string>12h</string>
+					</array>
+					<array>
+						<string>24-hour (14:32)</string>
+						<string>24h</string>
+					</array>
+				</array>
+				<key>required</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Clock format used in results.</string>
+			<key>label</key>
+			<string>Time format</string>
+			<key>type</key>
+			<string>popupbutton</string>
+			<key>variable</key>
+			<string>TIME_FORMAT</string>
+		</dict>
+	</array>
+	<key>variables</key>
+	<dict>
+		<key>TIME_FORMAT</key>
+		<string>12h</string>
+	</dict>
+	<key>variablesdontexport</key>
+	<array/>
+	<key>version</key>
+	<string>1.0.0</string>
+	<key>webaddress</key>
+	<string>https://git.rdm.humanwormbaby.com/landonpowell/whenin-alfred</string>
+</dict>
+</plist>
