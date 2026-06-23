@@ -7,9 +7,31 @@ dependencies.
 
 ## Install
 
-Download [`WhenIn.alfredworkflow`](WhenIn.alfredworkflow) and double-click to
-install it in Alfred (requires the Powerpack). The bundled binary is universal
-(Apple Silicon + Intel); nothing else to install.
+The workflow ships **without** a binary — you compile the engine yourself with
+one command. This keeps the download tiny and, because a binary you build
+locally is never quarantined, sidesteps macOS Gatekeeper entirely (no "developer
+cannot be verified" prompt, no `xattr` dance).
+
+1. **Install the engine** (needs a [Go toolchain](https://go.dev/dl/)):
+
+   ```sh
+   go install github.com/landon8848/public/whenin-alfred@latest
+   ```
+
+   This drops a `whenin-alfred` binary in `$(go env GOPATH)/bin` (usually
+   `~/go/bin`). You do **not** need that directory on your `PATH` — the workflow
+   looks there directly.
+
+2. **Install the workflow:** download
+   [`WhenIn.alfredworkflow`](WhenIn.alfredworkflow) and double-click to import it
+   into Alfred (requires the Powerpack).
+
+That's it. The workflow's script filter finds the engine at runtime, checking (in
+order): a binary bundled next to the workflow, `~/go/bin/whenin-alfred`, your
+`PATH`, and the Homebrew locations. If it can't find one, the first result tells
+you to run the `go install` command above.
+
+To **update**, re-run the `go install` line; `@latest` pulls the newest engine.
 
 ## Usage
 
@@ -39,11 +61,16 @@ The clock format (12h / 24h) is set in the workflow's configuration.
 
 ## Build from source
 
-Requires Go (see `go.mod`) and `lipo` (ships with the Xcode command-line tools)
-for the universal build.
+The engine is an ordinary Go program — `go install` (see [Install](#install)) is
+the supported build, and `go build -o whenin .` produces a local binary if you
+want one.
+
+`build/package.sh` just (re)zips the workflow bundle (`info.plist` + icon) into
+`WhenIn.alfredworkflow`. It no longer compiles or embeds a binary, so it needs
+neither a cross-compile nor `lipo`:
 
 ```sh
-sh build/package.sh   # build the universal binary and repackage WhenIn.alfredworkflow
+sh build/package.sh   # repackage WhenIn.alfredworkflow (no binary)
 ```
 
 ### Rebuilding the index
@@ -63,6 +90,19 @@ granularity. The `norm()` in that script must stay behaviourally identical to
 
 `sh build/make_icon.sh` re-renders `workflow/icon.png` from the source SVG
 (requires `librsvg`).
+
+## Troubleshooting
+
+- **Results say "When In… engine not installed"** — the engine binary isn't where
+  the workflow looks. Run `go install github.com/landon8848/public/whenin-alfred@latest`
+  and confirm it landed in `~/go/bin` (or `$(go env GOPATH)/bin`).
+- **`./whenin: No such file or directory`** — you're running an older build that
+  expects a bundled binary, but none is present. Reinstall using the two steps in
+  [Install](#install).
+- **"…cannot be opened because the developer cannot be verified" / killed** —
+  Gatekeeper quarantined a *downloaded* binary. The current install path avoids
+  this by building locally. If you have a stale downloaded copy, clear it with
+  `xattr -dr com.apple.quarantine <path>`.
 
 ## License
 

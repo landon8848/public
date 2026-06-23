@@ -13,7 +13,7 @@ import (
 	"runtime/debug"
 	"strings"
 
-	"whenin/internal/whenin"
+	"github.com/landon8848/public/whenin-alfred/internal/whenin"
 )
 
 const resultLimit = 9

@@ -69,7 +69,12 @@
 				<key>runningsubtext</key>
 				<string>Looking up the time…</string>
 				<key>script</key>
-				<string>./whenin "$1"</string>
+				<string># Run the engine wherever it lives: bundled binary first (legacy
+# packaged installs), then a `go install` / Homebrew location.
+for b in "./whenin" "./whenin-alfred" "$HOME/go/bin/whenin-alfred" "$(command -v whenin-alfred 2&gt;/dev/null)" "/opt/homebrew/bin/whenin-alfred" "/usr/local/bin/whenin-alfred"; do
+	[ -n "$b" ] &amp;&amp; [ -x "$b" ] &amp;&amp; exec "$b" "$1"
+done
+printf '%s' '{"items":[{"title":"When In… engine not installed","subtitle":"Run: go install github.com/landon8848/public/whenin-alfred@latest","valid":false}]}'
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>

@@ -1,4 +1,4 @@
-module whenin
+module github.com/landon8848/public/whenin-alfred
 
 go 1.26.2
 
